@@ -1,0 +1,187 @@
+:root {
+    --dark-dark: #143601;
+    --dark: #1a4301;
+    --dark-light: #245501;
+    --light-dark: #538d22;
+    --light: #73a942;
+    --light-light: #aad576;
+}
+
+* {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    flex-grow: 00;
+    color: var(--light-light)
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: var(--light-dark);
+    display: flex;
+    flex-direction: column;
+}
+
+header, footer {
+    background-color: var(--dark-dark);
+    padding: 1em 0;
+    padding-bottom: 0.1em;
+    padding-top: 0.1em;
+    color: var(--light-light);
+    flex-grow: 0;
+}
+
+.limiter {
+    max-width: 80em;
+    margin: 0 auto;
+    padding: 1em;
+}
+
+.limiterb{
+    max-width: 15em;
+    margin: 0 auto;
+    padding-bottom: 0.5em;
+}
+
+fieldset {
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+    background-color: var(--dark-light);
+    border-radius: 5px;
+    border-color: var(--light-dark);
+}
+
+.square-holder {
+    position: relative;
+}
+
+.square-sizer {
+    padding-top: 100%;
+}
+.square-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.row {
+    float: left;
+    width: calc(100% / 7.0);
+}
+
+.cell{
+    background-color: var(--dark-dark);
+}
+
+.viable {
+    background-color: var(--light);
+}
+
+.player, .target, .direction-arrow {
+    background-size: 600% 100%;
+    background-color: var(--light);
+    background-image: url(Images/symbols.svg);
+}
+
+.target {
+    background-position: -100% 0px;
+}
+
+.sizebar{
+    text-align: center;
+    padding-top: 0.25em;
+    clear: both;
+}
+
+button {
+    border-radius: 5px;
+    background-color: var(--light);
+    color: var(--dark-dark);
+}
+
+.sizebar>button {
+    width: calc(90%/3);
+}
+
+.sizebar>button:hover{
+    background-color: var(--light-dark);
+    cursor: pointer;
+}
+
+.control-holder{
+    background-color: var(--dark-dark);
+}
+
+.direction-arrow, .direction-spacer{
+    width: calc(33%);
+    height: calc(33%);
+    float: left;
+}
+
+.direction-arrow:hover{
+    background-color: var(--light);
+    cursor: pointer;
+}
+
+.up{
+    background-position: -80% 0px;
+}
+
+.right{
+    background-position: -60% 0px;
+}
+
+.down{
+    background-position: -40% 0px;
+}
+
+.left{
+    background-position: -20% 0px;
+}
+
+.popup{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup>div>button:hover {
+    cursor: pointer;
+}
+
+.popup>div{
+    width: 15em;
+    padding: 3em;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 5em;
+}
+
+@media (orientation: landscape) {
+    .limiter, .limiterb{
+        width: 80%;
+        max-width: 1000px;
+    }
+    .limiterb{
+        display: flex;
+        justify-content: space-between;
+    }
+    .limiterb fieldset {
+        width: 45%;
+    }
+}

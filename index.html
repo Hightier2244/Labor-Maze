@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang = de>
+    <head>
+        <meta charset="utf-8">
+        <title>Maze by Simon Raichle</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel ="icon" href="data:;base64,=">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <script src="script.js"></script>
+    </head>
+
+    <body>
+        <header>
+            <!-- <div class="limiter">
+                <h1>Maze</h1>
+                <h2>by Simon Raichle</h2>
+            </div> -->
+        </header>
+        <main>
+           <!--  <div class="limiterb">
+                <fieldset>
+                    <legend>Maze</legend>
+                    <div class="field">
+                        <div class="row">
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content viable player"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content viable"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content viable"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content viable"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content viable"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content viable"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content viable"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content viable"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content viable"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content viable"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content viable"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content viable"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content viable"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content viable"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content viable"></div>
+                            </div>
+                            <div class="square-holder">
+                            <div class="square-sizer"></div>
+                                <div class="cell square-content viable"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content viable target"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                            <div class="square-holder">
+                                <div class="square-sizer"></div>
+                                <div class="cell square-content"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sizebar">
+                        <button class="button" type="button" id="btsmall">small</button>
+                        <button class="button" type="button" id="btmedium">medium</button>
+                        <button class="button" type="button" id="btlarge">large</button>
+                    </div>
+                </fieldset>
+            <fieldset>
+                <legend>Contols</legend>
+                <div class="control-holder square-holder">
+                        <div class="square-sizer">
+                        <div class="control-content square-content">
+                            <div class="direction-spacer top-left"></div>
+                            <div class="direction-arrow up"></div>
+                            <div class="direction-spacer top-right"></div>
+                            <div class="direction-arrow left"></div>
+                            <div class="direction-spacer player"></div>
+                            <div class="direction-arrow right"></div>
+                            <div class="direction-spacer bottom-left"></div>
+                            <div class="direction-arrow down"></div>
+                            <div class="direction-spacer bottom-right"></div>
+                        </div>
+                    </div>
+                </div>
+                <fieldset>
+                    <legend>Communication</legend>
+                </fieldset>
+            </fieldset>
+        </div> -->
+        </main>
+        <footer>
+            <!-- <div class="limiter">
+                &copy; by Simon Raichle
+            </div> -->
+        </footer>
+        <!-- <div class="popup">
+            <div>
+                <div>You Won!</div>
+                <button type="button" style="font-size: 0.4em;">Replay</button>
+            </div>
+        </div> -->
+    </body>
+</html>
