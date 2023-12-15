@@ -107,7 +107,7 @@ button {
 }
 
 .sizebar>button {
-    width: calc(90%/3);
+    width: calc(95%/3);
 }
 
 .sizebar>button:hover{
