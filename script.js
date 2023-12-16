@@ -9,7 +9,8 @@ const maze = {
         body.appendChild(header);
         body.appendChild(main);
         body.appendChild(footer);
-        this.generateField(7,7);
+        this.maze = localMaze;
+        this.newMaze(7,7);
     },
     generateHeader(title, subtitle) {
         var header = document.createElement('header');
@@ -44,22 +45,22 @@ const maze = {
         const oldField = document.querySelector('.field');
         const newField = this.elementWithClasses('div', 'field');
         for(var row=0; row < heigth; row++){
-            newField.appendChild(this.generateRow(width));
+            newField.appendChild(this.generateRow(width, row));
         }
         oldField.replaceWith(newField);
         document.querySelectorAll('.row').forEach(element => {element.style.width = `calc(100% / ${width})`; });
     },
-    generateRow(width){
+    generateRow(width, rowIndex){
         const row = this.elementWithClasses('div', 'row');
-        for(var column = 0; column < width; column++){
-            row.appendChild(this.generateCell());
-        }
+        for(var column = 0; column < width; column++) row.appendChild(this.generateCell(rowIndex, column));
         return row;
     },
-    generateCell(){
+    generateCell(row, column){
         const squareHolder = this.elementWithClasses('div', 'square-holder');
         const squareSizer = this.elementWithClasses('div', 'square-sizer');
         const cell = this.elementWithClasses('div', 'square-content cell');
+        cell.dataset.x = row;
+        cell.dataset.y = column;
         squareHolder.appendChild(squareSizer);
         squareSizer.appendChild(cell);
         return squareHolder;
@@ -74,22 +75,16 @@ const maze = {
     },
     generateSizebar(){
         const sizebar = this.elementWithClasses('div', 'sizebar');
-        const btsmall = this.generateButton('small', 'btsmall');
+        const btsmall = this.generateButton('small', 'btSmall');
         btsmall.addEventListener('click', () => this.newMaze(7,7));
         sizebar.appendChild(btsmall);
-        const btmedium = this.generateButton('medium', 'btmedium');
+        const btmedium = this.generateButton('medium', 'btMedium');
         btmedium.addEventListener('click', () => this.newMaze(13,13));
         sizebar.appendChild(btmedium);
-        const btlarge = this.generateButton('large', 'btlarge');
+        const btlarge = this.generateButton('large', 'btLarge');
         btlarge.addEventListener('click', () => this.newMaze(25,25));
         sizebar.appendChild(btlarge);
         return sizebar;
-    },
-    generateButton(text, id){
-        const button = document.createElement('button');
-        button.text = text;
-        if(id != null) button.id = id;
-        return button;
     },
     generateControlFieldset(){
         const fieldset = this.makeFieldset('Controls');
@@ -114,6 +109,7 @@ const maze = {
         const arrowdown = this.elementWithClasses('div', 'direction-arrow down');
         arrowup.addEventListener('click', () => this.mazeMove(0,-1));
         arrowdown.addEventListener('click', () => this.mazeMove(0,1));
+        player.addEventListener('click', () => alert(`autosolve not implemented yet`));
         arrowleft.addEventListener('click', () => this.mazeMove(-1,0));
         arrowright.addEventListener('click', () => this.mazeMove(1,0));
         content.appendChild(this.elementWithClasses('div','direction-spacer top-left'))
@@ -138,9 +134,68 @@ const maze = {
         this.generateField(width,heigth);
         this.width = width;
         this.heigth = heigth;
+        const { playerX, playerY} = this.maze.generate(width,heigth);
+        this.positionPlayer(playerX, playerY);
+    },
+    positionPlayer(X,Y){
+        this.playerX = X,
+        this.playerY = Y;
+        const playerCell = document.querySelector('.cell[data-x="' + X + '"][data-y="' + Y + '"]');
+        //playerCell.classList.remove('cell');
+        playerCell.classList.add('floor');
+        const oldPlayer = document.querySelector('.square-content.player');
+        if(oldPlayer) oldPlayer.classList.remove('player');
+        playerCell.classList.add('player');
     },
     mazeMove(dx, dy){
-        alert(`Moving by ${dx},${dy}`);
+        const newX = this.playerX + dx;
+        const newY = this.playerY + dy;
+        const { cell} = this.maze.move(dx, dy);
+
+        switch (cell) {
+            case 0:
+                this.positionPlayer(newX, newY);
+                break;
+            case 1:
+                this.positionPlayer(newX, newY);
+                this.showPopup('You Won!');
+                break;
+            case 2:
+                this.markAsWall(newX, newY);
+                break;
+            default: alert('Impossible move value');
+        }
+    },
+    markAsWall(X, Y){
+        const wallCell = document.querySelector('.cell[data-x="' + X + '"][data-y="' + Y + '"]');
+        //wallCell.classList.remove('cell');
+        wallCell.classList.add('wall');
+    },
+    showPopup(text){
+        const popup = this.elementWithClasses('div', 'popup');
+        const div = document.createElement('div');
+        const divText = document.createElement('div');
+        divText.innerText = text;
+        const button = this.generateButton('Replay', 'btReplay');
+        button.addEventListener('click', () => this.replay());
+        div.appendChild(divText);
+        div.appendChild(button);
+        popup.appendChild(div);
+        document.body.appendChild(popup);
+    },
+    replay(){
+        this.newMaze(7,7);
+        this.hidePopup();
+    },
+    hidePopup(){
+        const popup = document.querySelector('.popup');
+        popup.remove();
+    },
+    generateButton(text, id){
+        const button = document.createElement('button');
+        button.innerText = text;
+        if(id != null) button.id = id;
+        return button;
     },
     elementWithClasses(elementType, classNames){
         const element = document.createElement(elementType);
@@ -148,4 +203,37 @@ const maze = {
             element.classList.add(className);
         return element;
     },
+}
+
+const localMaze = {
+    playerX: 1,
+    playerY: 1,
+    // 0: ways
+    // 1: target
+    // 2: walls
+    maze: [
+        [ 2, 2, 2, 2, 2, 2, 2],
+        [ 2, 0, 0, 0, 2, 0, 2],
+        [ 2, 0, 2, 0, 2, 0, 2],
+        [ 2, 0, 2, 0, 0, 0, 2],
+        [ 2, 0, 2, 2, 2, 0, 2],
+        [ 2, 0, 0, 1, 2, 0, 2],
+        [ 2, 2, 2, 2, 2, 2, 2],
+    ],
+    generate(width, heigth) {
+        this.playerX = 1;
+        this.playerY = 1;
+        return {playerX: this.playerX, playerY: this.playerY};
+    },
+    move(dx, dy){
+        if(dx < -1 || dx > 1 || dy < -1 || dy > 1) alert('too big move');
+        const newX = this.playerX + dx;
+        const newY = this.playerY + dy;
+        const cell = this.maze[newY][newX];
+        if (cell == 0 || cell == 1) {
+            this.playerX = newX;
+            this.playerY = newY;
+        }
+        return { cell, playerX: this.playerX, playerY: this.playerY}
+    }
 }

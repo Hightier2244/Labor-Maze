@@ -42,7 +42,7 @@ header, footer {
     padding: 1em;
 }
 
-.limiterb{
+main .limiter{
     max-width: 15em;
     margin: 0 auto;
     padding-bottom: 0.5em;
@@ -170,6 +170,14 @@ button {
     margin-left: auto;
     margin-right: auto;
     font-size: 5em;
+}
+
+.floor {
+    background-color: var(--light);
+}
+
+.wall {
+    background-color: black;
 }
 
 @media (orientation: landscape) {
