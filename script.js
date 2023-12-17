@@ -104,19 +104,19 @@ const maze = {
         sizer.appendChild(content);
         const arrowup = this.elementWithClasses('div', 'direction-arrow up');
         const arrowleft = this.elementWithClasses('div', 'direction-arrow left');
-        const player = this.elementWithClasses('div', 'direction-arrow player');
+        const autoSolve = this.elementWithClasses('div', 'direction-arrow autoSolve');
         const arrowright = this.elementWithClasses('div', 'direction-arrow right');
         const arrowdown = this.elementWithClasses('div', 'direction-arrow down');
         arrowup.addEventListener('click', () => this.mazeMove(0,-1));
         arrowdown.addEventListener('click', () => this.mazeMove(0,1));
-        player.addEventListener('click', () => alert(`autosolve not implemented yet`));
+        autoSolve.addEventListener('click', () => this.solve(0,0));
         arrowleft.addEventListener('click', () => this.mazeMove(-1,0));
         arrowright.addEventListener('click', () => this.mazeMove(1,0));
         content.appendChild(this.elementWithClasses('div','direction-spacer top-left'))
         content.appendChild(arrowup);
         content.appendChild(this.elementWithClasses('div','direction-spacer top-right'))
         content.appendChild(arrowleft);
-        content.appendChild(player);
+        content.appendChild(autoSolve);
         content.appendChild(arrowright);
         content.appendChild(this.elementWithClasses('div','direction-spacer bottom-left'))
         content.appendChild(arrowdown);
@@ -140,17 +140,20 @@ const maze = {
     positionPlayer(X,Y){
         this.playerX = X,
         this.playerY = Y;
-        const playerCell = document.querySelector('.cell[data-x="' + X + '"][data-y="' + Y + '"]');
-        //playerCell.classList.remove('cell');
-        playerCell.classList.add('floor');
-        const oldPlayer = document.querySelector('.square-content.player');
-        if(oldPlayer) oldPlayer.classList.remove('player');
-        playerCell.classList.add('player');
+        playerCell = document.querySelector('.cell[data-x="' + X + '"][data-y="' + Y + '"]');
+        if(playerCell == null) playerCell = document.querySelector('.floor[data-x="' + X + '"][data-y="' + Y + '"]');
+        if(playerCell != null){
+            playerCell.classList.remove('cell');
+            playerCell.classList.add('floor');
+            const oldPlayer = document.querySelector('.square-content.player');
+            if(oldPlayer) oldPlayer.classList.remove('player');
+            playerCell.classList.add('player');
+        }
     },
     mazeMove(dx, dy){
         const newX = this.playerX + dx;
         const newY = this.playerY + dy;
-        const { cell} = this.maze.move(dx, dy);
+        const {cell} = this.maze.move(dx, dy);
 
         switch (cell) {
             case 0:
@@ -168,8 +171,10 @@ const maze = {
     },
     markAsWall(X, Y){
         const wallCell = document.querySelector('.cell[data-x="' + X + '"][data-y="' + Y + '"]');
-        //wallCell.classList.remove('cell');
-        wallCell.classList.add('wall');
+        if(wallCell != null){ 
+            wallCell.classList.remove('cell');
+            wallCell.classList.add('wall');
+        }
     },
     showPopup(text){
         const popup = this.elementWithClasses('div', 'popup');
@@ -190,6 +195,40 @@ const maze = {
     hidePopup(){
         const popup = document.querySelector('.popup');
         popup.remove();
+    },
+    directions: [
+        { dx: 1, dy: 0 }, // right
+        { dx: -1, dy: 0 }, // left
+        { dx: 0, dy: 1 }, // down
+        { dx: 0, dy: -1 } // up
+    ],
+    solve(fromDx, fromDy){
+        const oldX = this.playerX;
+        const oldY = this.playerY;
+        for(const dir of this.directions){
+            if(dir.dx == -fromDx && dir.dy == -fromDy) continue;
+            const newX = oldX + dir.dx;
+            const newY = oldY + dir.dy;
+            const {cell} = this.maze.move(dir.dx, dir.dy);
+            switch(cell){
+                case 0:
+                    this.positionPlayer(newX, newY);
+                    const solved = this.solve(dir.dx, dir.dy);
+                    if(solved) return true;
+                    this.maze.move(-dir.dx, -dir.dy);
+                    this.positionPlayer(oldX, oldY);
+                    break;
+                case 1:
+                    this.positionPlayer(newX, newY);
+                    this.showPopup('You Won!');
+                    break;
+                case 2:
+                    console.log('Wall');
+                    this.markAsWall(newX, newY);
+                    break;
+            }
+        }
+        return false;
     },
     generateButton(text, id){
         const button = document.createElement('button');
