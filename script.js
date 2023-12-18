@@ -206,32 +206,33 @@ const maze = {
     finished: false,
     async solve(fromDx, fromDy) {
         if (this.finished == false) {
-        const oldX = this.playerX;
-        const oldY = this.playerY;
-        for(const dir of this.directions){
-            if(dir.dx == -fromDx && dir.dy == -fromDy) continue;
-            const newX = oldX + dir.dx;
-            const newY = oldY + dir.dy;
-            const {cell} = await this.maze.move(dir.dx, dir.dy);
-            switch(cell){
-                case 0:
-                    this.positionPlayer(newX, newY);
-                    const solved = await this.solve(dir.dx, dir.dy);
-                    if(solved) Promise.resolve(true);
-                    await this.maze.move(-dir.dx, -dir.dy);
-                    this.positionPlayer(oldX, oldY);
-                    break;
-                case 1:
-                    this.positionPlayer(newX, newY);
-                    this.finished = true;
-                    this.showPopup('You Won!');
-                    break;
-                case 2:
-                    this.markAsWall(newX, newY);
-                    break;
+            const oldX = this.playerX;
+            const oldY = this.playerY;
+            for(const dir of this.directions){
+                if(dir.dx == -fromDx && dir.dy == -fromDy || this.finished == true) continue;
+                const newX = oldX + dir.dx;
+                const newY = oldY + dir.dy;
+                const {cell} = await this.maze.move(dir.dx, dir.dy);
+                switch(cell){
+                    case 0:
+                        this.positionPlayer(newX, newY);
+                        const solved = await this.solve(dir.dx, dir.dy);
+                        if(solved) Promise.resolve(true);
+                        if(this.finished) break;
+                        await this.maze.move(-dir.dx, -dir.dy);
+                        this.positionPlayer(oldX, oldY);
+                        break;
+                    case 1:
+                        this.positionPlayer(newX, newY);
+                        this.finished = true;
+                        this.showPopup('You Won!');
+                        break;
+                    case 2:
+                        this.markAsWall(newX, newY);
+                        break;
+                }
             }
         }
-    }
         Promise.resolve(false);
     },
     generateButton(text, id) {
