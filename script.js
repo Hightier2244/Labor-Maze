@@ -193,6 +193,7 @@ const maze = {
         this.hidePopup();
     },
     hidePopup() {
+        this.finished = false;
         const popup = document.querySelector('.popup');
         popup.remove();
     },
@@ -202,7 +203,9 @@ const maze = {
         { dx: 0, dy: 1 }, // down
         { dx: 0, dy: -1 } // up
     ],
+    finished: false,
     async solve(fromDx, fromDy) {
+        if (this.finished == false) {
         const oldX = this.playerX;
         const oldY = this.playerY;
         for(const dir of this.directions){
@@ -220,6 +223,7 @@ const maze = {
                     break;
                 case 1:
                     this.positionPlayer(newX, newY);
+                    this.finished = true;
                     this.showPopup('You Won!');
                     break;
                 case 2:
@@ -227,6 +231,7 @@ const maze = {
                     break;
             }
         }
+    }
         Promise.resolve(false);
     },
     generateButton(text, id) {
