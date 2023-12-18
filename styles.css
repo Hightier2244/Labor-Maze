@@ -10,7 +10,7 @@
 * {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    flex-grow: 00;
+    flex-grow: 0;
     color: var(--light-light)
 }
 
@@ -33,7 +33,21 @@ header, footer {
     padding-bottom: 0.1em;
     padding-top: 0.1em;
     color: var(--light-light);
-    flex-grow: 0;
+}
+
+header {
+    height: 11.6%;
+}
+
+main {
+    height: 82%;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 5.75%;
 }
 
 .limiter {
@@ -43,7 +57,8 @@ header, footer {
 }
 
 main .limiter{
-    max-width: 15em;
+    max-height: 95.5%;
+    max-width: 35vh;
     margin: 0 auto;
     padding-bottom: 0.5em;
 }
@@ -177,19 +192,21 @@ button {
 }
 
 .wall {
-    background-color: black;
+    background-color: #0a1e00;
 }
 
 @media (orientation: landscape) {
-    .limiter, .limiterb{
-        width: 80%;
+    .limiter{
         max-width: 1000px;
     }
-    .limiterb{
+    main .limiter{
         display: flex;
         justify-content: space-between;
+        min-width: 400px;
+        max-width: 150vh;
+        width: 95%;
     }
-    .limiterb fieldset {
+    .limiter fieldset {
         width: 45%;
     }
 }
