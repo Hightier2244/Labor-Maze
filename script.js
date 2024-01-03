@@ -9,7 +9,7 @@ const maze = {
         body.appendChild(header);
         body.appendChild(main);
         body.appendChild(footer);
-        this.maze = localMaze;
+        this.maze = remoteMaze;
         this.newMaze(7,7);
     },
     generateHeader(title, subtitle) {
@@ -84,6 +84,15 @@ const maze = {
         const btlarge = this.generateButton('large', 'btLarge');
         btlarge.addEventListener('click', () => this.newMaze(25,25));
         sizebar.appendChild(btlarge);
+        const btlarger = this.generateButton('larger', 'btLarger');
+        btlarger.addEventListener('click', () => this.newMaze(50,50));
+        sizebar.appendChild(btlarger);
+        const bthuge = this.generateButton('huge', 'btHuge');
+        bthuge.addEventListener('click', () => this.newMaze(75,75));
+        sizebar.appendChild(bthuge);
+        const btlargest = this.generateButton('largest', 'btLargest');
+        btlargest.addEventListener('click', () => this.newMaze(99,99));
+        sizebar.appendChild(btlargest);
         return sizebar;
     },
     generateControlFieldset() {
@@ -92,6 +101,7 @@ const maze = {
         fieldset.appendChild(controls);
         const communications = this.makeFieldset('Communications');
         const p = document.createElement('p');
+        p.id = 'communications';
         communications.appendChild(p);
         fieldset.appendChild(communications);
         return fieldset;
@@ -153,7 +163,8 @@ const maze = {
     async mazeMove(dx, dy) {
         const newX = this.playerX + dx;
         const newY = this.playerY + dy;
-        const {cell} = await this.maze.move(dx, dy);
+        const {code: {cell, message}} = await this.maze.move(dx, dy);
+        document.getElementById('communications').text = message;
 
         switch (cell) {
             case 0:
@@ -212,7 +223,8 @@ const maze = {
                 if(dir.dx == -fromDx && dir.dy == -fromDy || this.finished == true) continue;
                 const newX = oldX + dir.dx;
                 const newY = oldY + dir.dy;
-                const {cell} = await this.maze.move(dir.dx, dir.dy);
+                const {code: {cell, message}} = await this.maze.move(dir.dx, dir.dy);
+                document.getElementById('communications').text = message;
                 switch(cell){
                     case 0:
                         this.positionPlayer(newX, newY);
@@ -247,6 +259,22 @@ const maze = {
             element.classList.add(className);
         return element;
     },
+}
+
+const remoteMaze = {
+    url: "https://www2.hs-esslingen.de/~melcher/it/maze/?",
+    token: null,
+    async fetchAndDecode(request){
+        return fetch(this.url + request).then(response => response.json());
+    },
+    async generate(width, heigth){
+        const ret = await this.fetchAndDecode(`request=generate&userid=sirait01&width=${width}&height=${heigth}`);
+        this.token = ret.token;
+        return ret;
+    },
+    async move(dx, dy){
+        return this.fetchAndDecode(`request=move&token=${this.token}&dx=${dx}&dy=${dy}`);
+    }
 }
 
 const localMaze = {
